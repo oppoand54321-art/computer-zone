@@ -27,7 +27,7 @@ export class App implements AfterViewInit {
   botWalk?: ElementRef<HTMLVideoElement>;
 
   botOpen = false;
-  whatsappNumber = '923222123512';
+  whatsappNumber = '923001234567';
 
   botMessages: { from: 'bot' | 'user'; text: string }[] = [
     { from: 'bot', text: 'Hello, how can I help you?' }
@@ -392,7 +392,26 @@ export class App implements AfterViewInit {
   }
 
 
+  hoverCard(key: string): void {
+
+    // touch screens fake a hover on tap; only react on real hover devices
+    if (window.matchMedia('(hover: hover)').matches) {
+      this.openCard(key);
+    }
+
+  }
+
+
   goToPage(key: string): void {
+
+    const narrow = window.matchMedia('(max-width: 1000px)').matches;
+    const canHover = window.matchMedia('(hover: hover)').matches;
+
+    // touch tablets: first tap shows the card, second tap opens the page
+    if (!narrow && !canHover && this.activeKey !== key) {
+      this.openCard(key);
+      return;
+    }
 
     this.openCard(key);
 

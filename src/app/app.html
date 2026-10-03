@@ -50,7 +50,7 @@
         class="service-button"
         [ngClass]="item.tone"
         [class.active]="activeKey === item.key"
-        (mouseenter)="openCard(item.key)"
+        (mouseenter)="hoverCard(item.key)"
         (click)="goToPage(item.key)">
         <span class="service-number">{{ item.number }}</span>
         <span>{{ item.title }}</span>
