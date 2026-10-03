@@ -1,0 +1,4 @@
+[build]
+  command = "npm run build"
+  publish = "dist/computer-zone0/browser"
+  
