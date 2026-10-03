@@ -167,7 +167,7 @@
         <button type="button" (click)="toggleBot()">×</button>
       </div>
       <div class="zone-bot-thread">
-        <p *ngFor="let msg of botMessages" [class.me]="msg.from === 'user'">{{ msg.text }}</p>
+        <p *ngFor="let msg of botMessages" [class.me]="msg.from === 'user'">{{ msg.text }}<a *ngIf="msg.link" class="bot-link" [href]="msg.link" target="_blank" rel="noopener">Open WhatsApp</a></p>
       </div>
       <form class="zone-bot-form" (submit)="sendBot($event)">
         <input #botField type="text" placeholder="Type here..." />

@@ -29,13 +29,22 @@ export class App implements AfterViewInit {
   botOpen = false;
   whatsappNumber = '923001234567';
 
-  botMessages: { from: 'bot' | 'user'; text: string }[] = [
+  /*
+   * WhatsApp opens automatically when the visitor sends this many messages.
+   * Change 2 to 3 if you want it on the third message.
+   */
+  messagesBeforeWhatsapp = 2;
+
+  userTexts: string[] = [];
+  whatsappOpened = false;
+
+  botMessages: { from: 'bot' | 'user'; text: string; link?: string }[] = [
     { from: 'bot', text: 'Hello, how can I help you?' }
   ];
 
 
   /*
-   * 15 IMAGES
+   * 10 IMAGES
    *
    * Put your images inside:
    * public/images/marquee/
@@ -45,7 +54,7 @@ export class App implements AfterViewInit {
    * 02.jpg
    * 03.jpg
    * ...
-   * 15.jpg
+   * 10.jpg
    */
   marqueeImages = [
     '/images/marquee/01.jpg',
@@ -57,12 +66,7 @@ export class App implements AfterViewInit {
     '/images/marquee/07.jpg',
     '/images/marquee/08.jpg',
     '/images/marquee/09.jpg',
-    '/images/marquee/10.jpg',
-    '/images/marquee/11.jpg',
-    '/images/marquee/12.jpg',
-    '/images/marquee/13.jpg',
-    '/images/marquee/14.jpg',
-    '/images/marquee/15.jpg'
+    '/images/marquee/10.jpg'
   ];
 
 
@@ -461,18 +465,56 @@ export class App implements AfterViewInit {
       return;
     }
 
+    this.userTexts.push(text);
     this.botMessages.push({ from: 'user', text });
 
     if (field) {
       field.value = '';
     }
 
-    this.botMessages.push({ from: 'bot', text: this.replyBot(text) });
+    // before the limit: normal reply
+    if (this.userTexts.length < this.messagesBeforeWhatsapp) {
+      this.botMessages.push({ from: 'bot', text: this.replyBot(text) });
+      return;
+    }
+
+    // at the limit: open WhatsApp directly (once), keep a button as backup
+    const link = this.whatsappLink();
+
+    if (!this.whatsappOpened) {
+      this.whatsappOpened = true;
+
+      this.botMessages.push({
+        from: 'bot',
+        text: 'Thank you! Connecting you to our team on WhatsApp now.',
+        link
+      });
+
+      window.open(link, '_blank');
+    } else {
+      this.botMessages.push({
+        from: 'bot',
+        text: 'You can continue with our team on WhatsApp.',
+        link
+      });
+    }
+  }
+
+
+  whatsappLink(): string {
+    const message = 'Hello Computer Zone. ' + this.userTexts.join(' | ');
+
+    return (
+      'https://wa.me/' +
+      this.whatsappNumber +
+      '?text=' +
+      encodeURIComponent(message)
+    );
   }
 
 
   replyBot(_text: string): string {
-    return 'Wait — connecting you on WhatsApp. Message us here: https://wa.me/' + this.whatsappNumber + '  If someone is available they will reply. Otherwise please come back to this chat a bit later.';
+    return 'Thanks! Which laptop or brand are you looking for, and what is your budget?';
   }
 
 }

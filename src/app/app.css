@@ -1217,6 +1217,14 @@ button {
   line-height: 1.35;
 }
 
+.zone-bot-thread p a.bot-link {
+  display: block;
+  margin-top: 6px;
+  color: #6cc4ff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .zone-bot-thread p.me {
   align-self: flex-end;
   background: #1e6fff;
