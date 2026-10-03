@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "computer-zone": {
+    "computer-zone0": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -55,10 +55,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "computer-zone:build:production"
+              "buildTarget": "computer-zone0:build:production"
             },
             "development": {
-              "buildTarget": "computer-zone:build:development"
+              "buildTarget": "computer-zone0:build:development"
             }
           },
           "defaultConfiguration": "development"
